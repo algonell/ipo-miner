@@ -1,5 +1,6 @@
 # Original version by Joey Sham
 # https://github.com/joeyism/py-edgar
+# This is a modified version using BeautifulSoup
 
 from lxml import html
 import requests
