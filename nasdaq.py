@@ -33,8 +33,8 @@ def get_ipo_list(start_date, end_date=datetime.datetime.today().strftime('%Y-%m-
     df_symbols = df_symbols[df_symbols.Price.str.contains("-") == False]
     df_symbols = to_float(df_symbols, 'Price')
     df_symbols = to_float(df_symbols, 'Offer Amount')
-    if '0' in df_symbols.columns:
-        df_symbols.drop(['0', '1', '2'], inplace=True, axis=1)
+    if 0 in df_symbols.columns:
+        df_symbols.drop([0, 1, 2], inplace=True, axis=1)
     
     return df_symbols
 	
