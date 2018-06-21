@@ -2,5 +2,8 @@
 
 IPO Investment via Text Mining
 
-# Requirements
-https://github.com/joeyism/py-edgar
+# Data
+
+Zipped 650MB ~ 5.5GB (+2400 filings) available at:
+https://goo.gl/Wnx1Dt
+
