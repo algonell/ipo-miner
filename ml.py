@@ -137,3 +137,9 @@ def rank_features_etc(X, Y, columns):
     plt.show()
     
     return indices	
+	
+def show_feature_importance(df, target_col):
+    '''Shows feature importances by ETC and XGC'''
+    X, Y = df.values[:,:-4], df[target_col].map(lambda x: 1 if x > 0 else 0).values
+    indices_sklearn = rank_features_etc(X, Y, df.columns[:-4])
+    rank_features_xgb(X, Y, df.columns[:-4])	
