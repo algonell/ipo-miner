@@ -90,4 +90,8 @@ for x in df.index:
         summarize_and_extract_keywords(x)
     except Exception as e:
         print(x, e)
+        #for now expection are only too large files that cause out of memory
+        #anyway it's imposible to summarize so then write empty files for later jobs
+        Path('./Summary/' + x + '.txt').touch()
+        Path('./Keywords/' + x + '.txt').touch()
 
