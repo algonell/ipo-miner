@@ -14,7 +14,6 @@ from sklearn.ensemble import VotingClassifier
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import log_loss
-from sklearn.metrics import confusion_matrix
 
 from sklearn import ensemble
 import xgboost as xgb
@@ -34,7 +33,7 @@ def run_ml_flow(df):
     '''Runs Machine Learning flow, returns evaluation DataFrame'''
     
     targets = ['1D', '1W', '1M', '3M']
-    evaluation = pd.DataFrame(columns=['AUC', 'f1', 'log loss'])
+    evaluation = pd.DataFrame(columns=targets, index=pd.MultiIndex.from_product([['AUC', 'f1', 'log loss'], ['LR', 'RF']]))
 
     for target in targets:
 
@@ -59,19 +58,11 @@ def run_ml_flow(df):
             predictions = clf.predict(X_test)
             probas = clf.predict_proba(X_test)
 
-            auc = roc_auc_score(y_test, predictions)
-            f1 = f1_score(y_test, predictions)
-            ll = log_loss(y_test, probas)
-            #print('AUC:', auc)
-            #print('f1:', f1)
-            #print('log loss:', ll)
-            #print(confusion_matrix(y_test, predictions))
-            #print('\n')
-
-        #save
-        evaluation.loc[target] = [auc, f1, ll]
+            evaluation.loc['AUC', k] = roc_auc_score(y_test, predictions)
+            evaluation.loc['f1', k] = f1_score(y_test, predictions)
+            evaluation.loc['log loss', k] = log_loss(y_test, probas)
     
-    return evaluation.T	
+    return evaluation
 
 def rank_features_xgb(X, Y, columns):
     # fit 
