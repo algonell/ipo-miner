@@ -3,7 +3,6 @@
 
 # # Summarization
 # - Summarize S-1 raw filings
-# - Extract keywords
 # - Batch process
 
 # In[1]:
@@ -16,11 +15,7 @@ from bs4 import BeautifulSoup
 from pathlib import Path
 
 #NLP
-from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
-
 from gensim.summarization import summarize
-from gensim.summarization import keywords
 
 
 # # Summarize IPO S-1 Filings
@@ -32,14 +27,10 @@ from gensim.summarization import keywords
 df = pd.read_csv('2 sentiment analysis.csv', index_col='Symbol')
 
 
-# In[ ]:
+# In[3]:
 
 
-def summarize_and_extract_keywords(x):
-    '''
-    x -- symbol
-    '''
-        
+def summarize_symbol(x):
     #read S-1
     with open("./Data/" + x + ".htm", "r", encoding="utf-8") as f:
         html = f.read()
@@ -47,27 +38,11 @@ def summarize_and_extract_keywords(x):
         text = soup.get_text(strip=True)
 
         #summary and keywords
-        lemmatizer = WordNetLemmatizer()
-        summary = summarize(text, ratio=0.01)
-        words = keywords(text, ratio=0.01)
+        summary = summarize(text[:250000], ratio=0.01)
         
         #write summary
         with open("./Summary/" + x + ".txt", "w", encoding="utf-8") as f:
-            f.write(summary)
-
-        #write keywords
-        with open("./Keywords/" + x + ".txt", "w", encoding="utf-8") as f:
-            #lemmatize
-            lemmatized_keywords = []
-
-            for w in word_tokenize(words):
-                lemmatized_keywords.append(lemmatizer.lemmatize(w))
-
-            lemmatized_keywords = list(set(lemmatized_keywords))
-
-            #write
-            for k in lemmatized_keywords:
-                f.write('%s\n' % k)     
+            f.write(summary)    
 
 
 # In[ ]:
@@ -82,16 +57,15 @@ for x in df.index:
         print('\n( ' + str(counter) + ' / ' + str(df.shape[0]) + ' ) ' + str(x))
 
         #check if exists
-        if Path("./Summary/" + x + ".txt").is_file() and Path("./Keywords/" + x + ".txt").is_file():
+        if Path("./Summary/" + x + ".txt").is_file():
             print(x + ' data already exists, skipping...')
             continue
 
         #summarization and keywords
-        summarize_and_extract_keywords(x)
+        summarize_symbol(x)
     except Exception as e:
         print(x, e)
         #for now expection are only too large files that cause out of memory
         #anyway it's imposible to summarize so then write empty files for later jobs
-        Path('./Summary/' + x + '.txt').touch()
-        Path('./Keywords/' + x + '.txt').touch()
+        Path('./Summary/' + x + '.txt').touch()      
 
