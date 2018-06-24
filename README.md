@@ -1,5 +1,5 @@
 # IPOMiner
-Python utilities to predict future performance of upcoming [IPO](https://www.google.com "Initial Public Offering).
+Python utilities to predict future performance of upcoming [IPO (Initial Public Offering)](https://www.google.com).
 
 ### What is this project?
 This project is a collection of datasets and Python code to perform Text Mining on raw [SEC](https://www.sec.gov/ "Securities and Exchange Commission") [S-1 filings](https://www.investopedia.com/terms/s/sec-form-s-1.asp).
