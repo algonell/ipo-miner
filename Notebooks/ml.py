@@ -90,7 +90,8 @@ def rank_features_xgb(X, Y, columns):
         indices = np.append(indices, x.replace('f', ''))
 
     indices = indices.astype(int)
-    importances = imp_arr[:,1].astype(int)    
+    importances = imp_arr[:,1].astype(int) #[:25] #limit to 25
+    #indices = indices[:25] #limit to 25
 
     # Print the feature ranking
     #print("Feature ranking:")
@@ -121,7 +122,8 @@ def rank_features_etc(X, Y, columns):
     importances = model.feature_importances_
     std = np.std([tree.feature_importances_ for tree in model.estimators_], axis=0)
     indices = np.argsort(importances)[::-1]
-
+    #indices = indices[:25] #limit to 25
+	
     # Print the feature ranking
     #print("Feature ranking:")
 
@@ -141,8 +143,14 @@ def rank_features_etc(X, Y, columns):
 def show_feature_importance(df, target_col):
     '''Shows feature importances by ETC and XGC'''
     X, Y = df.values[:,:-4], df[target_col].map(lambda x: 1 if x > 0 else 0).values
-    indices_sklearn = rank_features_etc(X, Y, df.columns[:-4])
-    rank_features_xgb(X, Y, df.columns[:-4])	
+    indices_etc = rank_features_etc(X, Y, df.columns[:-4])
+    indices_xgb = rank_features_xgb(X, Y, df.columns[:-4])	
+    
+    # combine two methods for the feature selection
+    topk = 10
+    indices = np.concatenate((indices_etc[:topk], indices_xgb[:topk]), axis=0)
+    indices = np.unique(indices)
+    return indices	
 	
 def plot_roc(y_test, probas, k):
     '''
@@ -198,3 +206,21 @@ def ll(yt, yp):
     '''
     
     return -(yt * np.log(yp) + (1 - yt) * np.log(1 - yp))	
+
+def select_features(features, indices, df):
+    '''
+    Selects top features via indices, returns lean DataFrame
+    '''
+	
+    # create new feature list
+    cols = []
+
+    for f in range(features):
+        cols.append(df.columns[indices[f]])        
+    print(cols)
+    
+    # reduce df for selected cols
+    cols.extend(['1D', '1W', '1M', '3M'])
+    df = pd.DataFrame(df, columns=cols)
+    
+    return df	
