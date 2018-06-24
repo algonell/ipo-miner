@@ -14,6 +14,7 @@ from sklearn.ensemble import VotingClassifier
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import log_loss
+from sklearn.metrics import roc_curve
 
 from sklearn import ensemble
 import xgboost as xgb
@@ -39,7 +40,6 @@ def run_ml_flow(df):
 
         #split
         X_train, X_test, y_train, y_test = model_selection.train_test_split(df.values[:,:-4], df[target].map(lambda x: 1 if x > 0 else 0).values, test_size=0.2, shuffle=False)
-        #print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
 
         #classifiers
         clfs = {
@@ -53,14 +53,23 @@ def run_ml_flow(df):
             clf.fit(X_train, y_train)
 
         #evaluate
+        if target == '3M':
+            plt.figure(figsize=(15, 5))
+        
         for k, clf in clfs.items():
-            #print(k)
             predictions = clf.predict(X_test)
             probas = clf.predict_proba(X_test)
 
             evaluation.loc['AUC', k] = roc_auc_score(y_test, predictions)
             evaluation.loc['f1', k] = f1_score(y_test, predictions)
             evaluation.loc['log loss', k] = log_loss(y_test, probas)
+			
+            if target == '3M':
+                plot_roc(y_test, probas[:,1], k)
+                plot_log_loss(y_test, probas[:,1], k)
+        
+        if target == '3M':
+            plt.show()		
     
     return evaluation
 
@@ -134,3 +143,58 @@ def show_feature_importance(df, target_col):
     X, Y = df.values[:,:-4], df[target_col].map(lambda x: 1 if x > 0 else 0).values
     indices_sklearn = rank_features_etc(X, Y, df.columns[:-4])
     rank_features_xgb(X, Y, df.columns[:-4])	
+	
+def plot_roc(y_test, probas, k):
+    '''
+	Plots ROC curve
+	
+	y_test -- predictions
+	probas -- probabilities
+	k -- classifier
+	'''
+    
+    plt.subplot(1, 2, 1)
+    plt.figure(1)
+    plt.plot([0, 1], [0, 1], 'k--')
+    fpr, tpr, _ = roc_curve(y_test, probas)
+    plt.plot(fpr, tpr, label=k)
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('ROC')
+    plt.legend(loc='best')
+	
+def plot_log_loss(y_test, probas, k):
+    '''
+	Plots log loss for instances
+	
+	y_test -- predictions
+	probas -- probabilities
+	k -- classifier	
+	'''
+	
+    #collect log loss for instances
+    plt.subplot(1, 2, 2)
+    v = []
+
+    for x, y in zip(y_test,probas):
+        v.append(ll(x, y))
+
+    v = np.sort(v)    
+
+    #plot log loss for instances
+    plt.plot(v, label=k)
+    plt.axhline(y=log_loss([1, 0], [0.5, 0.5]), color='black', linestyle='--')
+    plt.xlabel('Instances')
+    plt.ylabel('Log Loss')
+    plt.title('Log Loss')
+    plt.legend(loc='best')
+
+def ll(yt, yp):
+    '''
+    returns logarithmic loss
+    
+    yt -- prediction
+    yp -- probability
+    '''
+    
+    return -(yt * np.log(yp) + (1 - yt) * np.log(1 - yp))	
