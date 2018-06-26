@@ -23,6 +23,10 @@ def standardize(df):
     '''Returns standardized DataFrame'''
 	
     return (df-df.mean())/df.std()
+
+def normalize(df):
+    '''Returns normalized DataFrame'''
+    return (df-df.min())/(df.max()-df.min())
 	
 def encode(df, col):
     '''Returns encoded Series'''	
@@ -147,7 +151,7 @@ def show_feature_importance(df, target_col):
     indices_xgb = rank_features_xgb(X, Y, df.columns[:-4])	
     
     # combine two methods for the feature selection
-    topk = 10
+    topk = 5
     indices = np.concatenate((indices_etc[:topk], indices_xgb[:topk]), axis=0)
     indices = np.unique(indices)
     return indices	
