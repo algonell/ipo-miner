@@ -5,10 +5,17 @@ Python utilities to predict future performance of upcoming [IPO (Initial Public 
 This project is a collection of datasets and Python code to perform Text Mining on raw [SEC](https://www.sec.gov/ "Securities and Exchange Commission") [S-1 filings](https://www.investopedia.com/terms/s/sec-form-s-1.asp).
 
 ### How does it work?
-Python scripts are available for data retrieval, summarization, keywords extraction and Machine Learning.
+Jupyter Notebooks are available for data retrieval, summarization, keywords extraction and Machine Learning.
+Start by running all cells in the following notebooks:
+- S-1 Downloader.ipynb - Download raw IPO data.
+- Performance Downloader.ipynb - Download historical performance from Yahoo Finance.
+- Summarizer.ipynb - Summarize raw S-1 filings.
+- Keywords Extractor.ipynb - Extract keywords from S-1 filings.
+
+Then use the following scripts:
 ```python
-#training (since)
-python train.py '2000-01-01'
+#training
+python train.py
 
 #prediction
 python predict.py 'Company Name'
