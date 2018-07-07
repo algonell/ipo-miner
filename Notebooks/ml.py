@@ -37,6 +37,7 @@ def encode(df, col):
 def run_ml_flow(df):
     '''Runs Machine Learning flow, returns evaluation DataFrame'''
     
+    df = df.dropna()
     targets = ['1D', '1W', '1M', '3M']
     evaluation = pd.DataFrame(columns=targets, index=pd.MultiIndex.from_product([['AUC', 'f1', 'log loss'], ['LR', 'RF']]))
 
@@ -146,6 +147,7 @@ def rank_features_etc(X, Y, columns):
 	
 def show_feature_importance(df, target_col):
     '''Shows feature importances by ETC and XGC'''
+    df = df.dropna()
     X, Y = df.values[:,:-4], df[target_col].map(lambda x: 1 if x > 0 else 0).values
     indices_etc = rank_features_etc(X, Y, df.columns[:-4])
     indices_xgb = rank_features_xgb(X, Y, df.columns[:-4])	
