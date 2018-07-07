@@ -10,17 +10,20 @@ The goal of this project is to apply Text Mining tools and techniques to spot in
 ### How does it work?
 Jupyter Notebooks are available for data retrieval, summarization, keywords extraction and Machine Learning.
 
-Start by running all cells in the following notebooks:
+__Start by running all cells in the following notebooks:__
 - S-1 Downloader.ipynb - Download raw IPO data.
 - Performance Downloader.ipynb - Download historical performance from Yahoo Finance.
 - Summarizer.ipynb - Summarize raw S-1 filings.
 - Keywords Extractor.ipynb - Extract keywords from S-1 filings.
 
-Then run all cells in the following notebooks:
-- 1 Baseline.ipynb - Transform raw IPO listings
-- 2 Sentiment Analysis.ipynb - Add Sentiment Analysis features
-- 3 Summarization.ipynb - Add summarization features
-- 4 Keywords.ipynb - Add keywords analysis
+__Then run all cells in the following notebooks:__
+- 1 Baseline.ipynb - Transform raw IPO listings.
+- 2 Sentiment Analysis.ipynb - Add Sentiment Analysis features.
+- 3 Summarization.ipynb - Add summarization features.
+- 4 Keywords.ipynb - Add keywords analysis.
+
+__Making predictions:__
+- Run all cells in Predictor.ipynb - Gets upcoming IPO and predicts performance.
 
 ### Who will use this project?
 This project is intended for traders and researchers as potential fork for alpha generation.
