@@ -4,25 +4,23 @@ Python utilities to predict future performance of upcoming [IPO (Initial Public 
 ### What is this project?
 This project is a collection of datasets and Python code to perform Text Mining on raw [SEC](https://www.sec.gov/ "Securities and Exchange Commission") [S-1 filings](https://www.investopedia.com/terms/s/sec-form-s-1.asp).
 
+### What is the goal of this project?
+The goal of this project is to apply Text Mining tools and techniques to spot investment opportunities in upcoming IPO. The system is comprised of three main modules. The first module is responsible for IPO data retrieval via [EDGAR SEC system](https://www.sec.gov/edgar/searchedgar/companysearch.html?). The second module is responsible for Text Mining. The third module is a classifier of upcoming IPO performance.
+
 ### How does it work?
 Jupyter Notebooks are available for data retrieval, summarization, keywords extraction and Machine Learning.
+
 Start by running all cells in the following notebooks:
 - S-1 Downloader.ipynb - Download raw IPO data.
 - Performance Downloader.ipynb - Download historical performance from Yahoo Finance.
 - Summarizer.ipynb - Summarize raw S-1 filings.
 - Keywords Extractor.ipynb - Extract keywords from S-1 filings.
 
-Then use the following scripts:
-```python
-#training
-python train.py
-
-#prediction
-python predict.py 'Company Name'
-```
-
-### What is the goal of this project?
-The goal of this project is to apply Text Mining tools and techniques to spot investment opportunities in upcoming IPO. The system is comprised of three main modules. The first module is responsible for IPO data retrieval via [EDGAR SEC system](https://www.sec.gov/edgar/searchedgar/companysearch.html?). The second module is responsible for Text Mining. The third module is a classifier of upcoming IPO performance.
+Then run all cells in the following notebooks:
+- 1 Baseline.ipynb - Transform raw IPO listings
+- 2 Sentiment Analysis.ipynb - Add Sentiment Analysis features
+- 3 Summarization.ipynb - Add summarization features
+- 4 Keywords.ipynb - Add keywords analysis
 
 ### Who will use this project?
 This project is intended for traders and researchers as potential fork for alpha generation.
