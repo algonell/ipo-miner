@@ -23,7 +23,7 @@ __Then run all cells in the following notebooks:__
 - 4 Keywords.ipynb - Add keywords analysis.
 
 __Making predictions:__
-- Run all cells in Predictor.ipynb - Gets upcoming IPO and predicts performance.
+- Run all cells in Predictor.ipynb - Get upcoming IPO and predict performance.
 
 ### Who will use this project?
 This project is intended for traders and researchers as potential fork for alpha generation.
