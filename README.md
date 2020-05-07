@@ -1,7 +1,7 @@
 # IPOMiner
 Python utilities to predict future performance of upcoming [IPO (Initial Public Offering)](https://www.investopedia.com/terms/i/ipo.asp).
 
-Please checkout the accompanying paper [accompanying paper](https://github.com/algonell/IPOMiner/blob/master/NLP_ACL18.pdf) for more details.
+Checkout the accompanying paper [accompanying paper](https://github.com/algonell/IPOMiner/blob/master/NLP_ACL18.pdf) for more details.
 
 ### What is this project?
 This project is a collection of datasets and Python code to perform Text Mining on raw [SEC](https://www.sec.gov/ "Securities and Exchange Commission") [S-1 filings](https://www.investopedia.com/terms/s/sec-form-s-1.asp).
