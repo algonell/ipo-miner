@@ -14,13 +14,13 @@ def get_ipo_list(start_date, end_date=datetime.datetime.today().strftime('%Y-%m-
     end_date -- %Y-%m-%d
     """
 
-    #make dates range
+    # make dates range
     date_range = [start_date, end_date]
     start, end = [datetime.datetime.strptime(_, "%Y-%m-%d") for _ in date_range]
     date_dict = OrderedDict(((start + timedelta(_)).strftime(r"%Y-%m"), None) for _ in range((end - start).days)).keys()
     print('date range:', date_dict)
     
-    #scrape
+    # scrape
     df_symbols = pd.DataFrame()
 
     for x in date_dict:
